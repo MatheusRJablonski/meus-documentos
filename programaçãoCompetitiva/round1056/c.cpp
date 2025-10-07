@@ -10,6 +10,5 @@ int main() {
     while (t--) {
         cout  << '\n';
     }
-    
     return 0;
 }
