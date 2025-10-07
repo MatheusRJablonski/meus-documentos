@@ -8,7 +8,7 @@ int main() {
     cin >> t;
     //falta fazer
     while (t--) {
-        cout << algo << '\n';
+        cout  << '\n';
     }
     
     return 0;
