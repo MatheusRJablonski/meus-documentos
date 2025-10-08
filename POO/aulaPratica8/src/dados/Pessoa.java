@@ -36,5 +36,17 @@ public class Pessoa {
     public String toString(){
         return "Nome: " + nome + " | Idade: " + idade + "\nMassa: " + massa + " | Altura: " + altura; 
     };
+    public float calculaIMC(){
+        return this.massa / (this.altura * this.altura);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Pessoa p= (Pessoa) (o);
+        if (p.getNome() == this .getNome()) {
+            return true;
+        }
+        return false;
+    }
 
 }
