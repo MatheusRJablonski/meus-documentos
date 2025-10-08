@@ -36,11 +36,11 @@ public class Main {
         }
     }
     public static void imprimeMenu() {
-        System.out.println ("Escolha uma o p o :");
-        System.out.println ("0 − Sair") ;
-        System.out.println ("1 − Cadastrar pessoa") ;
-        System.out.println ("2 − Remover pessoa") ;
-        System.out.println ("3 − Mostrar pessoas") ;
+        System.out.println ("Escolha uma opção :");
+        System.out.println ("0 - Sair") ;
+        System.out.println ("1 - Cadastrar pessoa") ;
+        System.out.println ("2 - Remover pessoa") ;
+        System.out.println ("3 - Mostrar pessoas") ;
     }
     public static void menu() {
         int opcao= -1;
@@ -49,6 +49,7 @@ public class Main {
             opcao= s.nextInt();
             switch (opcao) {
                 case 0:
+                System.out.println("Encerrando...");
             break;
             case 1:
                 sistema.adicionarPessoa(novaPessoa());
