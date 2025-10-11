@@ -1,8 +1,5 @@
 package dados;
 
-import java.util.HashMap;
-import java.util.Map;
-//mudar p/ classe
 public enum Categoria {
 
 	COMIDA(1),
@@ -19,7 +16,6 @@ public enum Categoria {
     Categoria(int ID) {
         this.ID = ID;
     }
-
     public int getID() {
         return ID;
     }
@@ -32,22 +28,24 @@ public enum Categoria {
 		return false;
 	}
 
-	public String getID() {
-		switch (this) {
-		case COMIDA:
-			return "Comida";
-		case LAZER:
-			return "Lazer";
-		case EDUCACAO:
-			return "Educação";
-		case SAUDE:
-			return "Saúde";
-		case TRANSPORTE:
-			return "Transporte";
-		case OUTROS:
-			return "Outros";
-		default:
-			return this.name(); 
-		}
-	}
+	public String getNomeFormatado() {
+        switch (this) {
+            case COMIDA:
+                return "Comida";
+            case LAZER:
+                return "Lazer";
+            case EDUCACAO:
+                return "Educação";
+            case SAUDE:
+                return "Saúde";
+            case TRANSPORTE:
+                return "Transporte";
+            case INVESTIMENTO:
+                return "Investimento";
+            case OUTRO:
+                return "Outro";
+            default:
+                return this.name(); 
+        }
+    }
 }

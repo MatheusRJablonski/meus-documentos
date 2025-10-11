@@ -12,7 +12,7 @@ public class PessoaDAO {
     }
 
     public void insert (Pessoa pessoa) {
-        arquivoPessoaDAO.salvaPessoaArquivo (pessoa) ;
+        arquivoPessoaDAO.salvaPessoaArquivo(pessoa) ;
     }
     
 

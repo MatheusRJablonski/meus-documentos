@@ -1,25 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
-int dp[200000];
-int converter(vector<int>a,bool f){
-    int soma = 0;
-    int indice = a.size();
-    for (int i = 0; i < a.size(); i++) {
-        if(f){
-            soma += a[i] * (i+1);
-        }else{
-            soma += a[i] * (a.size() - i );
-        }
-   }
-    return soma;
-}
-int main() {
+#define int long long
+signed main() {
     int t,n;
     cin >> t;
     while(t--) {
+        int dp[200000];
         dp[0] = 0;                
         cin >> n;
-        vector<int>vec;
+        deque<int>vec;
         int soma = 0;
         bool reverse = false;
         for(int k = 1;k<=n;k++){
@@ -32,19 +21,19 @@ int main() {
                     v = vec[0];
                     pagina = vec[posicao];
                     posicao = vec.size()-1;
-                    vec.erase(vec.begin());
-                    vec.emplace_back(v);
+                    vec.pop_front();
+                    vec.push_back(v);
                 }else{
                     posicao = vec.size()-1;
                     pagina = vec[posicao];
                     v = vec[vec.size()-1];
                     vec.pop_back();
-                    vec.insert(vec.begin(), v);
+                    vec.push_front(v);
                 }
                 dp[k] = dp[k-1]  - pagina*(posicao+1) + soma; 
-               //cout <<k<< ' '<< soma << ' ' << pagina<<'x'<<(posicao+1) << ' ';
             }else if(op == 2){
-                dp[k] = converter(vec,reverse);
+                int posicao;
+                dp[k] = (vec.size()+1)*soma - dp[k-1];  
                 reverse = !reverse;
             }else if (op == 3){
                 cin >> v;
@@ -54,43 +43,9 @@ int main() {
                 soma += v;
                 dp[k] = v*vec.size() + dp[k-1]; 
             }
-            //for(int i = 0;i<vec.size();i++)cout << vec[i] << ' ';
         }
-        //cout << endl;
         for(int i = 1;i<=n;i++){
             cout << dp[i] << '\n';
         }
     }     
 }
-/*
-exemplo
-3 1    [1]              1
-3 2    [1,2]            5
-3 3    [1,2,3]          14 
-1      [3,1,2]          11
-3 4    [3,1,2,4]        27
-2      [4,2,1,3]        23
-3 5    [4,2,1,3,5]      48
-1      [5,4,2,1,3]      38
-3 6    [5,4,2,1,3,6]    74
-2      [6,3,1,2,4,5]    73
-3 7    [6,3,1,2,4,5,7]  122
-2      [7,5,4,2,1,3,6]  102
-1      [6,7,5,4,2,1,3]  88
-
-reverse 
-1 2 3 = 14
-3 2 1 = 10
-
-3 1 2 = 11
-2 1 3 = 13
-
-3 4 5 = 26
-5 4 3 = 22
-
-2 3 4 5 = 30  3   
-5 4 3 2 = 33      
-
-2 4 3 6 = 43  11 
-6 3 4 2 = 32
-*/
