@@ -1,0 +1,13 @@
+somar [] = []
+somar (x:xs) = x+1:somar xs
+
+dobrar [] =[]
+dobrar (x:xs) = 2*x:somar xs
+
+map' f [] = []
+map' f (x:xs) = f x:map' f xs 
+
+(\f(x:xs) -> f x:map' f xs) (1+)
+--trocando f por +1
+(\(x:xs) -> (+1) x:map' (+1) xs 
+

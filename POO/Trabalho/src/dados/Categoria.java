@@ -8,7 +8,7 @@ public enum Categoria {
 	SAUDE(4),
 	TRANSPORTE(5),
 	INVESTIMENTO(6),
-	OUTRO(7);
+	OUTROS(7);
 
     private int ID;
 
@@ -42,8 +42,8 @@ public enum Categoria {
                 return "Transporte";
             case INVESTIMENTO:
                 return "Investimento";
-            case OUTRO:
-                return "Outro";
+            case OUTROS:
+                return "Outros";
             default:
                 return this.name(); 
         }

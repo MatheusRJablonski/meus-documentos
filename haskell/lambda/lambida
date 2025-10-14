@@ -1,0 +1,8 @@
+--λx.x+1
+--em haskell é
+--(\x->x+1)10
+
+--λx.x(x(x(x z)))
+um = (\x->x+1)0
+dois = \s z -> s um
+quatro = (\s z -> s(s(s(s z))))

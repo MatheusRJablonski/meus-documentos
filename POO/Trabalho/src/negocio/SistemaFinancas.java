@@ -41,18 +41,6 @@ public class SistemaFinancas {
         return filtrados;
     }
     
-    public List<Gastos> filtrarGastosPorMes(String mesAno) {
-        System.out.println("=== FILTRO MÊS: " + mesAno + " ===");
-        List<Gastos> filtrados = new ArrayList<>();
-        for (Gastos gasto : gastos) {
-            if (gasto.getData().contains(mesAno)) {
-                filtrados.add(gasto);
-                System.out.println(gasto);
-            }
-        }
-        return filtrados;
-    }
-    
     public double calcularTotalGastos() {
         double total = gastos.stream().mapToDouble(Gastos::getValor).sum();
         System.out.println("TOTAL GERAL: R$ " + total);
@@ -70,5 +58,13 @@ public class SistemaFinancas {
     
     public List<Gastos> getGastos() {
         return new ArrayList<>(gastos);
+    }
+    public boolean alterarGasto(Gastos gastoAntigo, Gastos gastoNovo) {
+        int index = gastos.indexOf(gastoAntigo);
+        if (index != -1) {
+            gastos.set(index, gastoNovo);
+            return true;
+        }
+        return false;
     }
 }

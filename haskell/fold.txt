@@ -1,0 +1,21 @@
+somatorio [] = 0
+somatorio (x:xs) = x + somatorio xs
+
+mult [] = 1
+mult (x:xs) = x*mult xs
+
+meufold f b [] = b
+meufold f b (x:xs) = f x (meufold f b xs) --sendo b meu ponto de parada
+
+
+map' f [] = []
+map' f (x:xs) = f x:map' f xs
+
+
+filter' p [] = []
+filter' p (x:xs) = if p x then x:filter' p xs else filter' p xs --cria uma lista com elementos validados pela função p  
+
+
+
+all' [] = True
+all' (x:xs) = if x then all' xs else False 
