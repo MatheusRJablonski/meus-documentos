@@ -7,7 +7,7 @@ public class Fabricar  {
             c.setCor(Cor.values()[r.nextInt(Cor.values().length)]);
             c.setNumPortas(2+2*r.nextInt(2));
             c.setCombustivel(Combustivel.values()[r.nextInt(Combustivel.values().length)]);
-
+            
             return c;
         }else{
             Bicicleta b = new Bicicleta();

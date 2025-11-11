@@ -1,0 +1,43 @@
+create table Pessoa(
+    id int primary key,
+    nome varchar(100),
+    cpf varchar(14) 
+);
+
+create sequence seq_id_pessoa;
+insert into Pessoa Values(nextVal('seq_id_pessoa'),
+    'alan', '098.988.883-45');
+	select * from Pessoa;
+create table endereco (
+    id serial primary key,
+    rua varchar(100),
+    numero int,
+    cep varchar (10),
+    estado varchar(100),
+    cidade varchar(100),
+    pais varchar(100),
+    id_pessoa int
+    foreign key (id_pessoa)reference pessoa (id);
+)
+insert into Pessoa Values(1,'rua lages',100, 'cep','estado','cidade','pais',2);
+
+create table tipo_animal(
+    id int primary key,
+    nome varchar (100),
+
+)
+create sequence seq_id_tipo_animal;
+insert into tipo_animal values(nextVal(seq_id_tipo_animal), 'cachorro');
+
+create table animal(
+    id int primary key ,
+    nome Varchar(100),
+    descricao varchar(200),
+    id_tutor int not null,
+    id_tipo int not null,
+    foreign key (id_tutor)references pessoa,
+    foreign key (id_tipo)references tipo_animal
+);
+create sequence seq_id_animal
+
+insert into tipo_animal values(nextVal(seq_id_animal), 'nome', 'descricao muito texto',2,2);

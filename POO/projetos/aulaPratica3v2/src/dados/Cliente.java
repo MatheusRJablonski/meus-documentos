@@ -60,6 +60,7 @@ public class Cliente {
      public String toString() {
         return "nome: " + nome + ", cpf: " + cpf + ", endereco: " + endereco + ", telefone: " + telefone;
     }
+    
     public boolean equals (Object o) {
         if( o instanceof Cliente) {
             Cliente C = (Cliente) o;
@@ -69,4 +70,5 @@ public class Cliente {
         }
         return false;
     }
+    
 }
