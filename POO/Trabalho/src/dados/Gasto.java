@@ -2,12 +2,12 @@ package dados;
 
 public class Gasto {
     private String nome;
-    private String data;
+    private Data data;
     private String descricao;
     private double valor;
-    private Categoria categoria;
+    private CategoriaGasto categoria;
     
-    public Gasto(String nome, String data, String descricao, double valor, Categoria categoria) {
+    public Gasto(String nome, Data data, String descricao, double valor, CategoriaGasto categoria) {
         this.nome = nome;
         this.data = data;
         this.descricao = descricao;
@@ -27,11 +27,11 @@ public class Gasto {
         this.nome = nome;
     }
     
-    public String getData() {
+    public Data getData() {
         return data;
     }
     
-    public void setData(String data) {
+    public void setData(Data data) {
         this.data = data;
     }
     
@@ -51,20 +51,19 @@ public class Gasto {
         this.valor = valor;
     }
     
-    public Categoria getCategoria() {
+    public CategoriaGasto getCategoria() {
         return categoria;
     }
     
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(CategoriaGasto categoria) {
         this.categoria = categoria;
     }
     public boolean validarCategoria(String texto) { 
-        for (Categoria c : Categoria.values()) {
+        for (CategoriaGasto c : CategoriaGasto.values()) {
             if (texto.equals(c.name())) { 
                 return true;
             }
         }
-        System.out.println("informe uma categoria valida");
         return false;
     
 	}

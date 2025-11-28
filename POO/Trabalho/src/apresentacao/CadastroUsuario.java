@@ -1,8 +1,10 @@
 package apresentacao;
 
-import dados.Usuario;
 import negocio.SistemaFinancas;
 import javax.swing.*;
+
+import dados.Usuario;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,16 +28,14 @@ public class CadastroUsuario extends JFrame {
         setLocationRelativeTo(getParent());
         setResizable(false);
         
-        // Painel principal
+        
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        // Título
         JLabel titleLabel = new JLabel("Cadastrar Novo Usuário", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
         
-        // Painel de formulário
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
         
         formPanel.add(new JLabel("Nome:"));
@@ -56,7 +56,6 @@ public class CadastroUsuario extends JFrame {
         
         mainPanel.add(formPanel, BorderLayout.CENTER);
         
-        // Painel de botões
         JPanel buttonPanel = new JPanel(new FlowLayout());
         
         salvarButton = new JButton("Salvar");
@@ -74,13 +73,14 @@ public class CadastroUsuario extends JFrame {
     }
     
     private class SalvarListener implements ActionListener {
-        @Override
         public void actionPerformed(ActionEvent e) {
             String nome = nomeField.getText().trim();
             String email = emailField.getText().trim();
             String senha = new String(senhaField.getPassword());
             if (validarCampos()) {
-                if(sistema.cadastrarUsuario(nome,email,senha)){
+                Usuario novoUsuario = new Usuario(nome, email, senha); 
+                if(sistema.cadastrarUsuario(novoUsuario)){
+
                     JOptionPane.showMessageDialog(CadastroUsuario.this, 
                         "Usuário cadastrado com sucesso!\nNome: " + nome + "\nEmail: " + email, 
                         "Sucesso", JOptionPane.INFORMATION_MESSAGE);
@@ -98,7 +98,6 @@ public class CadastroUsuario extends JFrame {
     }
     
     private boolean validarCampos() {
-        // Validar nome
         if (nomeField.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Preencha o nome do usuário!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -106,7 +105,6 @@ public class CadastroUsuario extends JFrame {
             return false;
         }
         
-        // Validar email
         String email = emailField.getText().trim();
         if (email.isEmpty()) {
             JOptionPane.showMessageDialog(this, 

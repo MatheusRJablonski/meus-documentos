@@ -1,7 +1,8 @@
 package apresentacao;
 
-import dados.Categoria;
+import dados.CategoriaGasto;
 import dados.Gasto;
+import dados.Data;
 import negocio.SistemaFinancas;
 import javax.swing.*;
 import java.awt.*;
@@ -11,10 +12,12 @@ import java.awt.event.ActionListener;
 public class CadastrarGastos extends JFrame {
     private SistemaFinancas sistema;
     private JTextField nomeField;
-    private JTextField dataField;
+    private JTextField diaField = new JTextField();
+    private JTextField mesField = new JTextField();
+    private JTextField anoField = new JTextField();
     private JTextField descricaoField;
     private JTextField valorField;
-    private JComboBox<Categoria> categoriaComboBox;
+    private JComboBox<CategoriaGasto> categoriaComboBox;
     private JButton salvarButton;
     private JButton cancelarButton;
     
@@ -28,25 +31,31 @@ public class CadastrarGastos extends JFrame {
         setLocationRelativeTo(getParent());
         setResizable(false);
         
-        // Painel principal
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        // Título
         JLabel titleLabel = new JLabel("Cadastrar Novo Gasto", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
         
-        // Painel de formulário
         JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         
         formPanel.add(new JLabel("Nome:"));
         nomeField = new JTextField();
         formPanel.add(nomeField);
         
-        formPanel.add(new JLabel("Data (dd/mm/aaaa):"));
-        dataField = new JTextField();
-        formPanel.add(dataField);
+        JPanel dataPanel = new JPanel(new GridLayout(1, 5, 3, 10));
+        
+        
+        dataPanel.add(diaField);
+        dataPanel.add(new JLabel("/", JLabel.CENTER)); 
+        dataPanel.add(mesField);
+        dataPanel.add(new JLabel("/", JLabel.CENTER)); 
+        dataPanel.add(anoField);
+
+
+        formPanel.add(new JLabel("Data:"));
+        formPanel.add(dataPanel);
         
         formPanel.add(new JLabel("Descrição:"));
         descricaoField = new JTextField();
@@ -57,12 +66,11 @@ public class CadastrarGastos extends JFrame {
         formPanel.add(valorField);
         
         formPanel.add(new JLabel("Categoria:"));
-        categoriaComboBox = new JComboBox<>(Categoria.values());
+        categoriaComboBox = new JComboBox<>(CategoriaGasto.values());
         formPanel.add(categoriaComboBox);
         
         mainPanel.add(formPanel, BorderLayout.CENTER);
         
-        // Painel de botões
         JPanel buttonPanel = new JPanel(new FlowLayout());
         
         salvarButton = new JButton("Salvar");
@@ -80,65 +88,54 @@ public class CadastrarGastos extends JFrame {
     }
     
     private class SalvarListener implements ActionListener {
-        @Override
         public void actionPerformed(ActionEvent e) {
             if (validarCampos()) {
-                String nome = nomeField.getText().trim();
-                String data = dataField.getText().trim();
-                String descricao = descricaoField.getText().trim();
-                double valor = Double.parseDouble(valorField.getText().trim());
-                Categoria categoria = (Categoria) categoriaComboBox.getSelectedItem();
+                String nome = nomeField.getText();
+                Data data = converterData();
+                String descricao = descricaoField.getText();
+                double valor = Double.parseDouble(valorField.getText());
+                CategoriaGasto categoria = (CategoriaGasto) categoriaComboBox.getSelectedItem();
                 
                 Gasto novoGasto = new Gasto(nome, data, descricao, valor, categoria);
                 
                 if (sistema.adicionarGasto(novoGasto)) {
                     JOptionPane.showMessageDialog(CadastrarGastos.this, 
-                        "Gasto cadastrado com sucesso!\n" +
-                        "Nome: " + nome + "\n" +
-                        "Valor: R$ " + valor + "\n" +
-                        "Categoria: " + categoria, 
+                        "Gasto cadastrado com sucesso!\n", 
                         "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     limparCampos();
+                    carregarDados();
+                    dispose();
                 } else {
                     JOptionPane.showMessageDialog(CadastrarGastos.this, 
                         "Erro ao cadastrar gasto!", "Erro", 
                         JOptionPane.ERROR_MESSAGE);
                 }
             }
-            dispose();
-            Dashboard dashboard = new Dashboard(sistema);
-            dashboard.setVisible(true);
         }
     }
     
     private boolean validarCampos() {
-        // Validar nome
-        if (nomeField.getText().trim().isEmpty()) {
+       
+        if (nomeField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Preencha o nome do gasto!", "Erro", JOptionPane.ERROR_MESSAGE);
             nomeField.requestFocus();
             return false;
         }
         
-        // Validar data
-        String data = dataField.getText().trim();
-        if (data.isEmpty()) {
+        if(converterData() == null){
             JOptionPane.showMessageDialog(this, 
-                "Preencha a data do gasto!", "Erro", JOptionPane.ERROR_MESSAGE);
-            dataField.requestFocus();
+                "Digite uma data valida!", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
-        }
-        
-        // Validar descrição
-        if (descricaoField.getText().trim().isEmpty()) {
+        }        
+        if (descricaoField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Preencha a descrição do gasto!", "Erro", JOptionPane.ERROR_MESSAGE);
             descricaoField.requestFocus();
             return false;
         }
         
-        // Validar valor
-        String valorTexto = valorField.getText().trim();
+        String valorTexto = valorField.getText();
         if (valorTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Preencha o valor do gasto!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -166,10 +163,32 @@ public class CadastrarGastos extends JFrame {
     
     private void limparCampos() {
         nomeField.setText("");
-        dataField.setText("");
+        diaField.setText("");
+        mesField.setText("");
+        anoField.setText("");
         descricaoField.setText("");
         valorField.setText("");
         categoriaComboBox.setSelectedIndex(0);
         nomeField.requestFocus();
+    }
+    private Data converterData(){
+        try {
+        int dia = Integer.parseInt(diaField.getText().trim());
+        int mes = Integer.parseInt(mesField.getText().trim());
+        int ano = Integer.parseInt(anoField.getText().trim());
+        
+        Data d = new Data(dia, mes, ano);
+        return d;    
+        } catch (IllegalArgumentException e) {
+            return null;
+        } 
+    }
+    private void carregarDados() {
+        for (Window window : Window.getWindows()) {
+            if (window instanceof TabelaGastos) {
+                ((TabelaGastos) window).carregarDados();
+                break;
+            }
+        }
     }
 }

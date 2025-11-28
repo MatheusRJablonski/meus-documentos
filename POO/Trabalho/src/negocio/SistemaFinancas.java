@@ -1,56 +1,109 @@
 package negocio;
 
-
 import dados.Gasto;
+import dados.Investimento;
 import dados.Usuario;
-import dados.Categoria;
+import persistencia.UsuarioDAO;
+import dados.CategoriaGasto;
+import dados.CategoriaInvestimentos;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.ClassNotFoundException;
 
 public class SistemaFinancas {
     private static SistemaFinancas instance;
+    private Usuario usuarioLogado;
+    private UsuarioDAO usuarioDAO;
+    private List<Investimento>investimentos = new ArrayList<>();
     private List<Gasto> gastos = new ArrayList<>();
-    private List<Usuario> usuarios = new ArrayList<>();//inprovisado sem banco
-    public void inicializarUsuariosTeste() {
-        cadastrarUsuario("adm", "@", "1234");
+
+    private SistemaFinancas() {
+        this.usuarioDAO = UsuarioDAO.getInstance();
     }
-    
+
     public static SistemaFinancas getInstance() {
         if (instance == null) {
             instance = new SistemaFinancas();
         }
         return instance;
     }
-    public void adicionarUsuario(Usuario novo){
-        usuarios.add(novo);
-    }
-    public List<Usuario> getUsuarios(){
-        return usuarios;
-    }
-    public boolean validarLogin(String email,String senha) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equals(email)) {
-                if(usuario.getSenha().equals(senha)){
-                    
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public boolean cadastrarUsuario(String nome, String email, String senha) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equalsIgnoreCase(email)) {
-                return false;
-            }
-        }
-        Usuario novoUsuario = new Usuario(nome, email, senha);
-        usuarios.add(novoUsuario);
-        System.out.println(getUsuarios().size());
+    public boolean adicionarInvestimento(Investimento investimento) {
+        investimentos.add(investimento);
         return true;
     }
-    public SistemaFinancas() {
-        this.gastos = new ArrayList<>();
+    
+    public List<Investimento> listarInvestimentos() {
+        return new ArrayList<>(investimentos);
+    }
+    
+    public boolean removerInvestimento(Investimento investimento) {
+        return investimentos.remove(investimento);
+    }
+    
+    public double calcularTotalInvestido() {
+        double total = 0;
+        for (Investimento inv : investimentos) {
+            total += inv.getValorAplicado();
+        }
+        return total;
+    }
+    
+    public double calcularTotalAtual() {
+        double total = 0;
+        for (Investimento inv : investimentos) {
+            total += inv.getValorAtual();
+        }
+        return total;
+    }
+    
+    public double calcularRendimentoTotal() {
+        double totalAplicado = calcularTotalInvestido();
+        double totalAtual = calcularTotalAtual();
+        return ((totalAtual - totalAplicado) / totalAplicado) * 100;
+    }
+    
+    public List<Investimento> filtrarInvestimentosPorTipo(CategoriaInvestimentos tipo) {
+        List<Investimento> filtrados = new ArrayList<>();
+        for (Investimento inv : investimentos) {
+            if (inv.getTipo().equals(tipo)) {
+                filtrados.add(inv);
+            }
+        }
+        return filtrados;
+    }
+    
+    public List<Investimento> getInvestimentos() {
+        return new ArrayList<>(investimentos);
+    }
+
+    public boolean fazerLogin(String email, String senha) {
+        try {
+            Usuario usuario = usuarioDAO.fazerLogin(email, senha);
+            
+            if (usuario != null) {
+                this.usuarioLogado = usuario;
+                System.out.println(" Login realizado: " + usuario.getNome());
+                return true;
+            } else {
+                System.out.println("Login falhou para: " + email);
+                return false;
+            }
+        } catch (Exception e) {
+            System.err.println("Erro durante o login: " + e.getMessage());
+            return false;
+        }
+    }
+    public boolean cadastrarUsuario(Usuario u){
+        try{
+            UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
+            usuarioDAO.insert(u);   
+            return true;
+        }catch(Exception e){
+            System.err.println("Falha no cadastro do usuario");
+            return false;
+        }
     }
     
     public boolean adicionarGasto(Gasto gasto) {
@@ -70,7 +123,7 @@ public class SistemaFinancas {
         return removido;
     }
     
-    public List<Gasto> filtrarGastosPorCategoria(Categoria categoria) {
+    public List<Gasto> filtrarGastosPorCategoria(CategoriaGasto categoria) {
         System.out.println("=== FILTRO: " + categoria + " ===");
         List<Gasto> filtrados = new ArrayList<>();
         for (Gasto gasto : gastos) {
@@ -91,7 +144,7 @@ public class SistemaFinancas {
         return total;
     }
     
-    public double calcularTotalPorCategoria(Categoria categoria) {
+    public double calcularTotalPorCategoria(CategoriaGasto categoria) {
         double total = 0;
         for (Gasto g : gastos) {
             if (g.getCategoria() == categoria) {

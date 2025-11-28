@@ -1,19 +1,18 @@
 package dados;
 
-public enum Categoria {
+public enum CategoriaGasto {
 
 	COMIDA(1),
 	LAZER(2),
 	EDUCACAO(3),
 	SAUDE(4),
 	TRANSPORTE(5),
-	INVESTIMENTOS(6),
-	OUTROS(7);
+	OUTROS(6);
 
     private int ID;
 
 	
-    Categoria(int ID) {
+    CategoriaGasto(int ID) {
         this.ID = ID;
     }
     public int getID() {
