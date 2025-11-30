@@ -1,7 +1,7 @@
 package apresentacao;
 
-import dados.CategoriaGasto;
-import dados.Gasto;
+import dados.CategoriaInvestimento;
+import dados.Investimento;
 import negocio.SistemaFinancas;
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
-public class CadastrarGastos extends JFrame {
+public class CadastrarInvestimento extends JFrame {
     private SistemaFinancas sistema;
     private JTextField nomeField;
     private JTextField diaField = new JTextField();
@@ -17,20 +17,19 @@ public class CadastrarGastos extends JFrame {
     private JTextField anoField = new JTextField();
     private JTextField descricaoField;
     private JTextField valorField;
-    private JComboBox<CategoriaGasto> categoriaBox;
+    private JComboBox<CategoriaInvestimento> categoriaBox = new JComboBox<>(CategoriaInvestimento.values());
     private JButton salvarButton;
     private JButton cancelarButton;
-    private int idGasto = 0;
-    public CadastrarGastos(SistemaFinancas sistema,Gasto gasto) {
+    private int idInv = 0;
+    
+    public CadastrarInvestimento(SistemaFinancas sistema,Investimento inv) {
         this.sistema = sistema;
-        if(gasto != null){
-            this.idGasto = gasto.getId();
+        if(inv != null){
+            this.idInv = inv.getId();
         }
         initialize();
-        setarCampos(gasto);
-
+        setarCampos(inv);
     }
-    
     private void initialize() {
         setSize(450, 350);
         setLocationRelativeTo(getParent());
@@ -39,7 +38,7 @@ public class CadastrarGastos extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        JLabel titleLabel = new JLabel(idGasto > 0 ? "Editar Gasto" : "Cadastrar Novo Gasto", JLabel.CENTER);
+        JLabel titleLabel = new JLabel(idInv>0 ? "Editar Investimento" : "Cadastrar Novo Investimento", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
         
@@ -49,14 +48,20 @@ public class CadastrarGastos extends JFrame {
         nomeField = new JTextField();
         formPanel.add(nomeField);
         
-        JPanel dataPanel = new JPanel(new GridLayout(1, 5, 3, 10));
+        formPanel.add(new JLabel("Tipo:"));
+        formPanel.add(categoriaBox);
         
+        formPanel.add(new JLabel("Valor Aplicado (R$):"));
+        valorField = new JTextField();
+        formPanel.add(valorField);
+
+        JPanel dataPanel = new JPanel(new GridLayout(1, 5, 3, 10));
+
         dataPanel.add(diaField);
         dataPanel.add(new JLabel("/", JLabel.CENTER)); 
         dataPanel.add(mesField);
         dataPanel.add(new JLabel("/", JLabel.CENTER)); 
         dataPanel.add(anoField);
-
 
         formPanel.add(new JLabel("Data:"));
         formPanel.add(dataPanel);
@@ -64,14 +69,6 @@ public class CadastrarGastos extends JFrame {
         formPanel.add(new JLabel("Descrição:"));
         descricaoField = new JTextField();
         formPanel.add(descricaoField);
-        
-        formPanel.add(new JLabel("Valor (R$):"));
-        valorField = new JTextField();
-        formPanel.add(valorField);
-        
-        formPanel.add(new JLabel("Categoria:"));
-        categoriaBox = new JComboBox<>(CategoriaGasto.values());
-        formPanel.add(categoriaBox);
         
         mainPanel.add(formPanel, BorderLayout.CENTER);
         
@@ -97,55 +94,52 @@ public class CadastrarGastos extends JFrame {
                 String nome = nomeField.getText();
                 LocalDate data = converterData();
                 String descricao = descricaoField.getText();
-                double valor = Double.parseDouble(valorField.getText());
-                CategoriaGasto categoria = (CategoriaGasto) categoriaBox.getSelectedItem();
+                double valorAplicado = Double.parseDouble(valorField.getText());
+                CategoriaInvestimento categoria = (CategoriaInvestimento) categoriaBox.getSelectedItem();
                 
-                Gasto gasto = new Gasto(nome, data, descricao, valor, categoria);
-                gasto.setId(idGasto);
-                if(idGasto > 0 && sistema.editarGasto(gasto)){
+                Investimento inv = new Investimento(nome, categoria, valorAplicado, data, descricao);
+                inv.setId(idInv);
+                if(idInv > 0 && sistema.editarInvestimento(inv)){
                     carregarDados();
                     dispose();
-                    JOptionPane.showMessageDialog(CadastrarGastos.this, 
-                    "Gasto alterado com sucesso!\n", 
+                    JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
+                    "Investimento alterado com sucesso!\n", 
                     "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                }else if(sistema.cadastrarGasto(gasto)) {
-                    JOptionPane.showMessageDialog(CadastrarGastos.this, 
-                    "Gasto cadastrado com sucesso!\n", 
-                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                }else if(sistema.cadastrarInvestimento(inv)) {
                     carregarDados();
                     dispose();
+                    JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
+                    "Investimento cadastrado com sucesso!\n", 
+                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(CadastrarGastos.this, 
+                    JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
                     "informe os campos corretamente!", "Erro", 
                     JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
     }
-    
     private boolean validarCampos() {
-       
         if (nomeField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "Preencha o nome do gasto!", "Erro", JOptionPane.ERROR_MESSAGE);
-            return false;
+                "Preencha o nome do investimento!", "Erro",JOptionPane.ERROR_MESSAGE);
+                return false;
         }
-        
+            
         if(converterData() == null){
             JOptionPane.showMessageDialog(this, 
                 "Digite uma data valida!", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
-        }        
+        }   
         if (descricaoField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "Preencha a descrição do gasto!", "Erro", JOptionPane.ERROR_MESSAGE);
+            "Preencha a descrição do investimento!", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
         String valorTexto = valorField.getText();
         if (valorTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "Preencha o valor do gasto!", "Erro", JOptionPane.ERROR_MESSAGE);
+            "Preencha o valor do investimento!", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         
@@ -156,25 +150,39 @@ public class CadastrarGastos extends JFrame {
                     "O valor deve ser maior que zero!", "Erro", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-        } catch (NumberFormatException e) {
+        }catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, 
-                "Valor inválido! Use números (ex: 25.50)", "Erro", JOptionPane.ERROR_MESSAGE);
+                "Valor inválido! Use números (ex: 1000.50)", "Erro",JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
         return true;
     }
-    
-    void setarCampos(Gasto g){
+    private LocalDate converterData(){
+            try {
+            int dias[] = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            int dia = Integer.parseInt(diaField.getText().trim());
+            int mes = Integer.parseInt(mesField.getText().trim());
+            int ano = Integer.parseInt(anoField.getText().trim());
+            if (ano < 1920) ano = 1920;
+            if (mes > 12 || mes < 1)return null;
+            if (dias[mes-1] > dia || dia < 1)return null;
+            LocalDate data = LocalDate.of(ano, mes, dia);
+            return data;
+            
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public void setarCampos(Investimento inv){
         try{
-            if(g != null){
-                nomeField.setText(g.getNome());
-                diaField.setText(String.valueOf(g.getData().getDayOfMonth()));
-                mesField.setText(String.valueOf(g.getData().getMonthValue()));
-                anoField.setText(String.valueOf(g.getData().getYear()));
-                descricaoField.setText(g.getDescricao());
-                valorField.setText(String.valueOf(g.getValor()));
-                categoriaBox.setSelectedItem(g.getCategoria());
+            if(inv != null){
+                nomeField.setText(inv.getNome());
+                diaField.setText(String.valueOf(inv.getDataAplicacao().getDayOfMonth()));
+                mesField.setText(String.valueOf(inv.getDataAplicacao().getMonthValue()));
+                anoField.setText(String.valueOf(inv.getDataAplicacao().getYear()));
+                descricaoField.setText(inv.getDescricao());
+                valorField.setText(String.valueOf(inv.getValorAplicado()));
+                categoriaBox.setSelectedItem(inv.getCategoria());
             }else{
                 nomeField.setText("");
                 diaField.setText("");
@@ -188,26 +196,10 @@ public class CadastrarGastos extends JFrame {
             System.out.println("problema em setar os campos: "+e.getMessage());
         }
     }
-    private LocalDate converterData(){
-        try {
-            int dias[] = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-            int dia = Integer.parseInt(diaField.getText().trim());
-            int mes = Integer.parseInt(mesField.getText().trim());
-            int ano = Integer.parseInt(anoField.getText().trim());
-            if (ano < 1920) ano = 1920;
-            if (mes > 12 || mes < 1)return null;
-            if (dias[mes-1] > dia || dia < 1)return null;
-            LocalDate data = LocalDate.of(ano, mes, dia);
-        return data;
-        
-        } catch (Exception e) {
-            return null;
-        }
-    }
     private void carregarDados() {
         for (Window window : Window.getWindows()) {
-            if (window instanceof TabelaGastos) {
-                ((TabelaGastos) window).carregarDados(0);
+            if (window instanceof TabelaInvestimentos) {
+                ((TabelaInvestimentos) window).carregarDados(0);
                 break;
             }
         }

@@ -1,23 +1,24 @@
 package dados;
 
+import java.time.LocalDate;
+
 public class Gasto {
+    private int id;
     private String nome;
-    private String data;
+    private LocalDate data;
     private String descricao;
     private double valor;
-    private Categoria categoria;
+    private CategoriaGasto categoria;
     
-    public Gasto(String nome, String data, String descricao, double valor, Categoria categoria) {
+    public Gasto(String nome, LocalDate data, String descricao, double valor, CategoriaGasto categoria) {
+        this.id = 0;
         this.nome = nome;
         this.data = data;
         this.descricao = descricao;
         this.valor = valor;
         this.categoria = categoria;
     }
-
-    public Gasto() {
-        
-    }
+    public Gasto() {}
 
     public String getNome() {
         return nome;
@@ -27,11 +28,11 @@ public class Gasto {
         this.nome = nome;
     }
     
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
     
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
     
@@ -50,31 +51,18 @@ public class Gasto {
     public void setValor(double valor) {
         this.valor = valor;
     }
-    
-    public Categoria getCategoria() {
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getId() {
+        return id;
+    }
+    public CategoriaGasto getCategoria() {
         return categoria;
     }
     
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(CategoriaGasto categoria) {
         this.categoria = categoria;
     }
-    public boolean validarCategoria(String texto) { 
-        for (Categoria c : Categoria.values()) {
-            if (texto.equals(c.name())) { 
-                return true;
-            }
-        }
-        System.out.println("informe uma categoria valida");
-        return false;
     
-	}
-    public String toString() {
-        String mensagem = "";
-        mensagem += "nome do gasto: " + nome + '\n';
-        mensagem += "data: " + data + '\n';
-        mensagem += "descricao: " + descricao + '\n';
-        mensagem += "valor: R$" + valor + '\n';
-        mensagem += "categoria: " + categoria + '\n';
-        return mensagem;
-    }
 }

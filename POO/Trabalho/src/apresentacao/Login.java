@@ -69,7 +69,6 @@ public class Login extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         
         add(mainPanel);
-        sistema.inicializarUsuariosTeste();//tirar depois
     }
     
     private class LoginListener implements ActionListener {
@@ -82,17 +81,12 @@ public class Login extends JFrame {
                     "Preencha todos os campos!", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            System.out.println("Tentando login com: " + email + " / " + senha);
-            System.out.println("Total de usuários: " + sistema.getUsuarios().size());
-            
-            boolean resultado = sistema.validarLogin(email, senha);
-            System.out.println("Resultado do login: " + resultado);
-            if(!sistema.validarLogin(email,senha)){
-                JOptionPane.showMessageDialog(Login.this, 
-                    "Digite corretamente seu email e senha!", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
+            String erro = sistema.fazerLogin(email, senha);
+            if (erro == null) {
+                abrirDashboard();
+            } else {
+                JOptionPane.showMessageDialog(Login.this, erro, "Erro", JOptionPane.ERROR_MESSAGE);
             }
-            abrirDashboard();
         }
     }
     private class CadastrarListener implements ActionListener {

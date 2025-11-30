@@ -1,117 +1,175 @@
 package negocio;
 
-
 import dados.Gasto;
+import dados.Investimento;
 import dados.Usuario;
-import dados.Categoria;
+import persistencia.InvestimentoDAO;
+import persistencia.GastoDAO;
+import persistencia.UsuarioDAO;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SistemaFinancas {
     private static SistemaFinancas instance;
-    private List<Gasto> gastos = new ArrayList<>();
-    private List<Usuario> usuarios = new ArrayList<>();//inprovisado sem banco
-    public void inicializarUsuariosTeste() {
-        cadastrarUsuario("adm", "@", "1234");
-    }
+    private Usuario usuarioLogado;
+    private UsuarioDAO usuarioDAO;
+    
+    private SistemaFinancas() {
+        this.usuarioDAO = UsuarioDAO.getInstance();
+    }    
     
     public static SistemaFinancas getInstance() {
         if (instance == null) {
             instance = new SistemaFinancas();
-        }
+        }    
         return instance;
     }
-    public void adicionarUsuario(Usuario novo){
-        usuarios.add(novo);
-    }
-    public List<Usuario> getUsuarios(){
-        return usuarios;
-    }
-    public boolean validarLogin(String email,String senha) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equals(email)) {
-                if(usuario.getSenha().equals(senha)){
-                    
-                    return true;
-                }
-            }
+    //-------------usuario-------------------    
+    public boolean cadastrarUsuario(Usuario u){
+        try{
+            UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
+            usuarioDAO.insert(u);   
+            return true;
+        }catch(SQLException e){
+            System.out.println("Erro ao cadastrar usuário: " + e.getMessage());;
+            return false;
         }
-        return false;
-    }
-    public boolean cadastrarUsuario(String nome, String email, String senha) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().equalsIgnoreCase(email)) {
-                return false;
+    }     
+
+    public String fazerLogin(String email, String senha) {
+        try {
+            Usuario usuario = usuarioDAO.fazerLogin(email, senha);    
+            if (usuario != null) {
+                this.usuarioLogado = usuario;
+                return null;
+            } else {
+                return "Email ou senha incorretos";  
             }
+        } catch (Exception e) {
+            return "Erro de conexão com o servidor"; 
         }
-        Usuario novoUsuario = new Usuario(nome, email, senha);
-        usuarios.add(novoUsuario);
-        System.out.println(getUsuarios().size());
+    }
+//-------------------investimento---------------------------------
+    public boolean cadastrarInvestimento(Investimento i) {
+        try{
+            InvestimentoDAO investimentoDAO = InvestimentoDAO.getInstance();
+            investimentoDAO.insert(i,usuarioLogado.getId());   
+        }catch(SQLException e){
+            System.out.println("Falha no cadastro 'banco' do investimento: " + e.getMessage());
+            return false;
+        }catch(Exception e){
+            System.out.println("Falha no cadastro do gasto: "+ e.getMessage());
+            return false;
+        }
         return true;
     }
-    public SistemaFinancas() {
-        this.gastos = new ArrayList<>();
+    public boolean editarInvestimento(Investimento i){
+        try {
+            InvestimentoDAO investimentoDAO = InvestimentoDAO.getInstance();        
+            investimentoDAO.update(i);
+            return true;
+        } catch(SQLException e) {
+            System.out.println("erro no banco ao edição do gasto: " + e.getMessage());
+            return false;
+        } catch(Exception e) {
+            System.out.println("Falha na edição do gasto: " + e.getMessage());
+            return false;
+        }
     }
-    
-    public boolean adicionarGasto(Gasto gasto) {
-        gastos.add(gasto);
+    public boolean excluirInvestimento(int idInvestimento) {
+        try {
+            InvestimentoDAO investimentoDAO = InvestimentoDAO.getInstance();
+            investimentoDAO.delete(idInvestimento);
+            return true;
+        } catch (SQLException e) {
+            System.out.println("erro de banco ao excluir gasto: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.out.println("erro ao excluir gasto: " + e.getMessage());
+            return false;
+        }
+    }    
+     public List<Investimento> getInvestimentos() {
+        try{
+            InvestimentoDAO investimentoDAO = InvestimentoDAO.getInstance();
+            return investimentoDAO.selectAll(usuarioLogado.getId()); 
+            
+        } catch(SQLException e) {
+            System.out.println("erro na busca de dados: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+    public List<Investimento> getInvestimentosPorCategoria(int idCategoria) {
+        try{
+            InvestimentoDAO investimentoDAO = InvestimentoDAO.getInstance();
+            return investimentoDAO.selectPorCategoria(usuarioLogado.getId(),idCategoria); 
+        }catch(SQLException e){
+            System.out.println("erro na busca de dados por categorias: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+
+
+    //-------------gastos--------------------
+    public boolean cadastrarGasto(Gasto g) {
+        try{
+            GastoDAO gastoDAO = GastoDAO.getInstance();
+            gastoDAO.insert(g,usuarioLogado.getId());   
+        }catch(SQLException e){
+            return false;
+        }catch(Exception e){
+            System.out.println("Falha no cadastro do gasto: " + e.getMessage());
+            return false;
+        }
         return true;
     }
-    
-    public List<Gasto> listarGastos() {
-        System.out.println("=== LISTA DE GASTOS ===");
-        gastos.forEach(System.out::println);
-        return new ArrayList<>(gastos);
-    }
-    
-    public boolean removerGasto(Gasto gasto) {
-        boolean removido = gastos.remove(gasto);
-        System.out.println(removido ? "Gasto removido!" : "Gasto não encontrado!");
-        return removido;
-    }
-    
-    public List<Gasto> filtrarGastosPorCategoria(Categoria categoria) {
-        System.out.println("=== FILTRO: " + categoria + " ===");
-        List<Gasto> filtrados = new ArrayList<>();
-        for (Gasto gasto : gastos) {
-            if (gasto.getCategoria() == categoria) {
-                filtrados.add(gasto);
-                System.out.println(gasto);
-            }
+    public boolean editarGasto(Gasto g){
+        try {
+            GastoDAO gastoDAO = GastoDAO.getInstance();        
+            gastoDAO.update(g);
+            return true;
+        } catch(SQLException e) {
+            System.out.println("erro no banco ao edição do gasto: " + e.getMessage());
+            return false;
+        } catch(Exception e) {
+            System.out.println("Falha na edição do gasto: " + e.getMessage());
+            return false;
         }
-        return filtrados;
     }
-    
-    public double calcularTotalGastos() {
-        double total = 0;
-        for (Gasto g : gastos) {
-            total += g.getValor();
+    public boolean excluirGasto(int idGasto) {
+        try {
+            GastoDAO gastoDAO = GastoDAO.getInstance();
+            gastoDAO.delete(idGasto);
+            return true;
+        } catch (SQLException e) {
+            System.out.println("erro de banco ao excluir gasto: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.out.println("erro ao excluir gasto: " + e.getMessage());
+            return false;
         }
-        System.out.println("TOTAL GERAL: R$ " + total);
-        return total;
-    }
-    
-    public double calcularTotalPorCategoria(Categoria categoria) {
-        double total = 0;
-        for (Gasto g : gastos) {
-            if (g.getCategoria() == categoria) {
-                total += g.getValor();
-            }
-        }
-        System.out.println("TOTAL " + categoria+ ": R$ " + total);
-        return total;
     }
     
     public List<Gasto> getGastos() {
-        return new ArrayList<>(gastos);
-    }
-    
-    public boolean alterarGasto(Gasto gastoAntigo, Gasto gastoNovo) {
-        int index = gastos.indexOf(gastoAntigo);
-        if (index != -1) {
-            gastos.set(index, gastoNovo);
-            return true;
+        try{
+            GastoDAO gastoDAO = GastoDAO.getInstance();
+            return gastoDAO.selectAll(usuarioLogado.getId()); 
+            
+        } catch(SQLException e) {
+            System.out.println("erro na busca de dados: " + e.getMessage());
+            return new ArrayList<>();
         }
-        return false;
+    }
+    public List<Gasto> getGastosPorCategoria(int idCategoria) {
+        try{
+            GastoDAO gastoDAO = GastoDAO.getInstance();
+            return gastoDAO.selectPorCategoria(usuarioLogado.getId(),idCategoria); 
+        }catch(SQLException e){
+            System.out.println("erro na busca de dados por categorias: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 }

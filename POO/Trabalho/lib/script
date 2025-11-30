@@ -1,0 +1,41 @@
+-- Database: sistemaFinanceiroBD
+
+-- DROP DATABASE IF EXISTS "sistemaFinanceiroBD";
+
+CREATE SEQUENCE IF NOT EXISTS seq_id_usuarios;
+CREATE SEQUENCE IF NOT EXISTS seq_id_gastos;
+CREATE SEQUENCE IF NOT EXISTS seq_id_investimento;
+
+-- Tabela de usuários
+CREATE TABLE IF NOT EXISTS usuarios(
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_id_usuarios'),
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL
+);
+
+-- Tabela de gastos
+CREATE TABLE IF NOT EXISTS gastos (
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_id_gastos'),
+    nome VARCHAR(255) NOT NULL,
+    data_gasto DATE NOT NULL,
+    descricao TEXT NOT NULL,
+    valor DECIMAL(10,2) NOT NULL,
+    categoria INTEGER NOT NULL,
+    usuario_id INTEGER NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- Tabela de investimentos  
+CREATE TABLE IF NOT EXISTS investimentos (
+    id INTEGER PRIMARY KEY DEFAULT nextval('seq_id_investimento'),
+    nome VARCHAR(255) NOT NULL,
+    tipo VARCHAR(100) NOT NULL,
+    valor_aplicado DECIMAL(12,2) NOT NULL,
+    valor_atual DECIMAL(12,2) NOT NULL,
+    rendimento DECIMAL(8,4) DEFAULT 0,
+    data_aplicacao DATE NOT NULL,
+    descricao TEXT,
+    usuario_id INTEGER NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
