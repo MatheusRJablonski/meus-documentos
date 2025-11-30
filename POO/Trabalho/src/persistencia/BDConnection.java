@@ -20,9 +20,9 @@ public class BDConnection {
                 conexao = DriverManager.getConnection(url, username, senha);
             }
          }catch(ClassNotFoundException e){
-            System.err.println("driver postgre nao encontrado");
+            System.out.println("driver postgre nao encontrado"+ e.getMessage());
         }catch(SQLException e){
-            System.err.println("erro ao conectar com o banco");
+            System.out.println("erro ao conectar com o banco"+ e.getMessage());
         }
             
         return conexao;

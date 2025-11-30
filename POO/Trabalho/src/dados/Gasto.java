@@ -1,23 +1,24 @@
 package dados;
 
+import java.time.LocalDate;
+
 public class Gasto {
+    private int id;
     private String nome;
-    private Data data;
+    private LocalDate data;
     private String descricao;
     private double valor;
     private CategoriaGasto categoria;
     
-    public Gasto(String nome, Data data, String descricao, double valor, CategoriaGasto categoria) {
+    public Gasto(String nome, LocalDate data, String descricao, double valor, CategoriaGasto categoria) {
+        this.id = 0;
         this.nome = nome;
         this.data = data;
         this.descricao = descricao;
         this.valor = valor;
         this.categoria = categoria;
     }
-
-    public Gasto() {
-        
-    }
+    public Gasto() {}
 
     public String getNome() {
         return nome;
@@ -27,11 +28,11 @@ public class Gasto {
         this.nome = nome;
     }
     
-    public Data getData() {
+    public LocalDate getData() {
         return data;
     }
     
-    public void setData(Data data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
     
@@ -50,7 +51,12 @@ public class Gasto {
     public void setValor(double valor) {
         this.valor = valor;
     }
-    
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getId() {
+        return id;
+    }
     public CategoriaGasto getCategoria() {
         return categoria;
     }
@@ -58,22 +64,5 @@ public class Gasto {
     public void setCategoria(CategoriaGasto categoria) {
         this.categoria = categoria;
     }
-    public boolean validarCategoria(String texto) { 
-        for (CategoriaGasto c : CategoriaGasto.values()) {
-            if (texto.equals(c.name())) { 
-                return true;
-            }
-        }
-        return false;
     
-	}
-    public String toString() {
-        String mensagem = "";
-        mensagem += "nome do gasto: " + nome + '\n';
-        mensagem += "data: " + data + '\n';
-        mensagem += "descricao: " + descricao + '\n';
-        mensagem += "valor: R$" + valor + '\n';
-        mensagem += "categoria: " + categoria + '\n';
-        return mensagem;
-    }
 }

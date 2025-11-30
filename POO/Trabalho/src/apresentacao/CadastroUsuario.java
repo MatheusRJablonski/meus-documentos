@@ -28,7 +28,6 @@ public class CadastroUsuario extends JFrame {
         setLocationRelativeTo(getParent());
         setResizable(false);
         
-        
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
@@ -74,13 +73,12 @@ public class CadastroUsuario extends JFrame {
     
     private class SalvarListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            String nome = nomeField.getText().trim();
-            String email = emailField.getText().trim();
+            String nome = nomeField.getText();
+            String email = emailField.getText();
             String senha = new String(senhaField.getPassword());
             if (validarCampos()) {
                 Usuario novoUsuario = new Usuario(nome, email, senha); 
                 if(sistema.cadastrarUsuario(novoUsuario)){
-
                     JOptionPane.showMessageDialog(CadastroUsuario.this, 
                         "Usuário cadastrado com sucesso!\nNome: " + nome + "\nEmail: " + email, 
                         "Sucesso", JOptionPane.INFORMATION_MESSAGE);

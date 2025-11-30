@@ -81,12 +81,12 @@ public class Login extends JFrame {
                     "Preencha todos os campos!", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if(!sistema.fazerLogin(email,senha)){
-                JOptionPane.showMessageDialog(Login.this, 
-                    "Digite corretamente seu email e senha!", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
+            String erro = sistema.fazerLogin(email, senha);
+            if (erro == null) {
+                abrirDashboard();
+            } else {
+                JOptionPane.showMessageDialog(Login.this, erro, "Erro", JOptionPane.ERROR_MESSAGE);
             }
-            abrirDashboard();
         }
     }
     private class CadastrarListener implements ActionListener {

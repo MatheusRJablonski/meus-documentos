@@ -1,6 +1,6 @@
 package apresentacao;
 
-import dados.CategoriaInvestimentos;
+import dados.CategoriaInvestimento;
 import dados.Investimento;
 import negocio.SistemaFinancas;
 import javax.swing.*;
@@ -8,34 +8,37 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
-public class CadastrarInvestimento extends JDialog {
+public class CadastrarInvestimento extends JFrame {
     private SistemaFinancas sistema;
     private JTextField nomeField;
-    private JComboBox<String> tipoComboBox;
+    private JTextField diaField = new JTextField();
+    private JTextField mesField = new JTextField();
+    private JTextField anoField = new JTextField();
+    private JTextField descricaoField;
     private JTextField valorField;
-    private JTextField dataField;
-    private JTextArea descricaoArea;
+    private JComboBox<CategoriaInvestimento> categoriaBox = new JComboBox<>(CategoriaInvestimento.values());
     private JButton salvarButton;
     private JButton cancelarButton;
+    private int idInv = 0;
     
-    public CadastrarInvestimento(JFrame parent, SistemaFinancas sistema) {
-        super(parent, "Cadastrar Novo Investimento", true);
+    public CadastrarInvestimento(SistemaFinancas sistema,Investimento inv) {
         this.sistema = sistema;
+        if(inv != null){
+            this.idInv = inv.getId();
+        }
         initialize();
+        setarCampos(inv);
     }
-    
     private void initialize() {
-        setSize(500, 400);
+        setSize(450, 350);
         setLocationRelativeTo(getParent());
         setResizable(false);
         
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        JLabel titleLabel = new JLabel("Cadastrar Novo Investimento", JLabel.CENTER);
+        JLabel titleLabel = new JLabel(idInv>0 ? "Editar Investimento" : "Cadastrar Novo Investimento", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
         
@@ -46,22 +49,26 @@ public class CadastrarInvestimento extends JDialog {
         formPanel.add(nomeField);
         
         formPanel.add(new JLabel("Tipo:"));
-        String[] tipos = {"AÇÃO", "FUNDO IMOBILIÁRIO", "TESOURO DIRETO", "CDB", "LCI/LCA", "POUPANÇA", "CRIPTOMOEDA", "OUTROS"};
-        tipoComboBox = new JComboBox<>(tipos);
-        formPanel.add(tipoComboBox);
+        formPanel.add(categoriaBox);
         
         formPanel.add(new JLabel("Valor Aplicado (R$):"));
         valorField = new JTextField();
         formPanel.add(valorField);
 
-        formPanel.add(new JLabel("Data (dd/mm/aaaa):"));
-        dataField = new JTextField();
-        formPanel.add(dataField);
+        JPanel dataPanel = new JPanel(new GridLayout(1, 5, 3, 10));
+
+        dataPanel.add(diaField);
+        dataPanel.add(new JLabel("/", JLabel.CENTER)); 
+        dataPanel.add(mesField);
+        dataPanel.add(new JLabel("/", JLabel.CENTER)); 
+        dataPanel.add(anoField);
+
+        formPanel.add(new JLabel("Data:"));
+        formPanel.add(dataPanel);
         
         formPanel.add(new JLabel("Descrição:"));
-        descricaoArea = new JTextArea(3, 20);
-        JScrollPane scrollPane = new JScrollPane(descricaoArea);
-        formPanel.add(scrollPane);
+        descricaoField = new JTextField();
+        formPanel.add(descricaoField);
         
         mainPanel.add(formPanel, BorderLayout.CENTER);
         
@@ -83,56 +90,56 @@ public class CadastrarInvestimento extends JDialog {
     
     private class SalvarListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            try {
-                if (validarCampos()) {
-                    String nome = nomeField.getText();
-                    CategoriaInvestimentos tipo = (CategoriaInvestimentos)tipoComboBox.getSelectedItem();
-                    double valor = Double.parseDouble(valorField.getText());
-                    LocalDate data = parseData(dataField.getText());
-                    String descricao = descricaoArea.getText();
-                    
-                    if (data == null) {
-                        JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
-                            "Data inválida! Use o formato dd/mm/aaaa", "Erro", 
-                            JOptionPane.ERROR_MESSAGE);
-                        dataField.requestFocus();
-                        return; 
-                    }
-                    
-                    Investimento novoInvestimento = new Investimento(nome, tipo, valor, data, descricao);
-                    
-                    if (sistema.adicionarInvestimento(novoInvestimento)) {
-                        JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
-                            "Investimento cadastrado com sucesso!\n", 
-                            "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
-                            "Erro ao cadastrar investimento!", "Erro", 
-                            JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
-                    "Erro inesperado: " + ex.getMessage(), "Erro", 
+            if (validarCampos()) {
+                String nome = nomeField.getText();
+                LocalDate data = converterData();
+                String descricao = descricaoField.getText();
+                double valorAplicado = Double.parseDouble(valorField.getText());
+                CategoriaInvestimento categoria = (CategoriaInvestimento) categoriaBox.getSelectedItem();
+                
+                Investimento inv = new Investimento(nome, categoria, valorAplicado, data, descricao);
+                inv.setId(idInv);
+                if(idInv > 0 && sistema.editarInvestimento(inv)){
+                    carregarDados();
+                    dispose();
+                    JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
+                    "Investimento alterado com sucesso!\n", 
+                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                }else if(sistema.cadastrarInvestimento(inv)) {
+                    carregarDados();
+                    dispose();
+                    JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
+                    "Investimento cadastrado com sucesso!\n", 
+                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(CadastrarInvestimento.this, 
+                    "informe os campos corretamente!", "Erro", 
                     JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
-    
     private boolean validarCampos() {
-        if (nomeField.getText().trim().isEmpty()) {
+        if (nomeField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "Preencha o nome do investimento!", "Erro", JOptionPane.ERROR_MESSAGE);
-            nomeField.requestFocus();
+                "Preencha o nome do investimento!", "Erro",JOptionPane.ERROR_MESSAGE);
+                return false;
+        }
+            
+        if(converterData() == null){
+            JOptionPane.showMessageDialog(this, 
+                "Digite uma data valida!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }   
+        if (descricaoField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+            "Preencha a descrição do investimento!", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
-        String valorTexto = valorField.getText().trim();
+        String valorTexto = valorField.getText();
         if (valorTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "Preencha o valor aplicado!", "Erro", JOptionPane.ERROR_MESSAGE);
-            valorField.requestFocus();
+            "Preencha o valor do investimento!", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         
@@ -141,40 +148,60 @@ public class CadastrarInvestimento extends JDialog {
             if (valor <= 0) {
                 JOptionPane.showMessageDialog(this, 
                     "O valor deve ser maior que zero!", "Erro", JOptionPane.ERROR_MESSAGE);
-                valorField.requestFocus();
                 return false;
             }
-        } catch (NumberFormatException e) {
+        }catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, 
-                "Valor inválido! Use números (ex: 1000.50)", "Erro", JOptionPane.ERROR_MESSAGE);
-            valorField.requestFocus();
+                "Valor inválido! Use números (ex: 1000.50)", "Erro",JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
-        String dataTexto = dataField.getText().trim();
-        if (dataTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Preencha a data da aplicação!", "Erro", JOptionPane.ERROR_MESSAGE);
-            dataField.requestFocus();
-            return false;
-        }
-        
-        if (parseData(dataTexto) == null) {
-            JOptionPane.showMessageDialog(this, 
-                "Data inválida! Use o formato dd/mm/aaaa", "Erro", JOptionPane.ERROR_MESSAGE);
-            dataField.requestFocus();
-            return false;
-        }
-        
         return true;
     }
-    
-    private LocalDate parseData(String dataTexto) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return LocalDate.parse(dataTexto, formatter);
-        } catch (DateTimeParseException e) {
+    private LocalDate converterData(){
+            try {
+            int dias[] = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            int dia = Integer.parseInt(diaField.getText().trim());
+            int mes = Integer.parseInt(mesField.getText().trim());
+            int ano = Integer.parseInt(anoField.getText().trim());
+            if (ano < 1920) ano = 1920;
+            if (mes > 12 || mes < 1)return null;
+            if (dias[mes-1] > dia || dia < 1)return null;
+            LocalDate data = LocalDate.of(ano, mes, dia);
+            return data;
+            
+        } catch (Exception e) {
             return null;
+        }
+    }
+    public void setarCampos(Investimento inv){
+        try{
+            if(inv != null){
+                nomeField.setText(inv.getNome());
+                diaField.setText(String.valueOf(inv.getDataAplicacao().getDayOfMonth()));
+                mesField.setText(String.valueOf(inv.getDataAplicacao().getMonthValue()));
+                anoField.setText(String.valueOf(inv.getDataAplicacao().getYear()));
+                descricaoField.setText(inv.getDescricao());
+                valorField.setText(String.valueOf(inv.getValorAplicado()));
+                categoriaBox.setSelectedItem(inv.getCategoria());
+            }else{
+                nomeField.setText("");
+                diaField.setText("");
+                mesField.setText("");
+                anoField.setText("");
+                descricaoField.setText("");
+                valorField.setText("");
+                categoriaBox.setSelectedIndex(0);
+            }
+        }catch(Exception e){
+            System.out.println("problema em setar os campos: "+e.getMessage());
+        }
+    }
+    private void carregarDados() {
+        for (Window window : Window.getWindows()) {
+            if (window instanceof TabelaInvestimentos) {
+                ((TabelaInvestimentos) window).carregarDados(0);
+                break;
+            }
         }
     }
 }
