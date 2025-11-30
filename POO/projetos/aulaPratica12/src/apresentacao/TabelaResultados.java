@@ -16,6 +16,7 @@ public class TabelaResultados extends AbstractTableModel {
     public int getColumnCount(){
         return colunas.length;
     }
+    
     public Object getValueAt(int row, int column){
         if(!calculadora.getValores().isEmpty()){
             switch(column){
