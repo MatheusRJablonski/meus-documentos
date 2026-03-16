@@ -9,8 +9,9 @@ import dados.CategoriaInvestimento;
 import dados.Investimento;
 
 public class InvestimentoDAO {
-    private static InvestimentoDAO instance = null;
 
+    private static InvestimentoDAO instance = null;
+    
     private PreparedStatement insert;
     private PreparedStatement newId;
     private PreparedStatement selectCategoria;

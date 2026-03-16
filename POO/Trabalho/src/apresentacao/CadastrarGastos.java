@@ -190,13 +190,9 @@ public class CadastrarGastos extends JFrame {
     }
     private LocalDate converterData(){
         try {
-            int dias[] = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-            int dia = Integer.parseInt(diaField.getText().trim());
-            int mes = Integer.parseInt(mesField.getText().trim());
-            int ano = Integer.parseInt(anoField.getText().trim());
-            if (ano < 1920) ano = 1920;
-            if (mes > 12 || mes < 1)return null;
-            if (dias[mes-1] > dia || dia < 1)return null;
+            int dia = Integer.parseInt(diaField.getText());
+            int mes = Integer.parseInt(mesField.getText());
+            int ano = Integer.parseInt(anoField.getText());
             LocalDate data = LocalDate.of(ano, mes, dia);
         return data;
         
