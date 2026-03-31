@@ -10,36 +10,23 @@ typedef struct Node{
 Node* head=NULL;
 Node* tail=NULL;
 
-void init();
-
 void init(){
-    head = (Node*) malloc(sizeof(Node));//(a)
+    head = (Node*) malloc(sizeof(Node));
     strcpy( head->data, "A");
-    head->next = NULL;
-    
-    
-    Node* nodeB= NULL;
-    nodeB = (Node*)malloc(sizeof(Node));//(a)
-    strcpy(nodeB->data,"B");
-    nodeB->next=NULL;
-    head->next = nodeB;//  liga  head com nó “B”
-    
-    Node* nodeC=NULL;
-    nodeC=(Node*) malloc(sizeof(Node));//(a)
-    strcpy(nodeC->data,"C");
-    
-    nodeC->next=NULL; 
-    nodeB->next= nodeC;
-    
-    tail = (Node*)malloc(sizeof(Node));//(a)
-    strcpy(tail-> data, "D");
-    tail->next = NULL;
-    nodeC->next = tail;//  liga  o nó “C” com tail/cauda(b)
+    head->next = NULL;        
 }
-
-int main()
-{
+void add ( char data[]){
+    Node* newNode = NULL;
+    newNode = (Node*)malloc (sizeof(Node));
+    strcpy(newNode->data, data);
+    newNode-> next = NULL;
+    tail ->next = newNode;
+    tail = newNode;
+}
+int main(){
    init();
+    char a[] = "A";
+    add(a);
 
     return 0;
 }
