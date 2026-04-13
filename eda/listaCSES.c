@@ -14,11 +14,11 @@ typedef struct {
     int x;
     int y;
     int dir[4];
-} info;
+} Info;
 
 struct stack{
     int tam;
-    info *vet;
+    Info *vet;
     int topo;
 };
 
@@ -36,7 +36,7 @@ struct stack *cria(int tam){
     struct stack *stk = NULL;
     stk = malloc(sizeof(struct stack));
 
-    stk->vet = malloc(sizeof(info) * tam);
+    stk->vet = malloc(sizeof(Info) * tam);
     if(!stk->vet){
         free(stk);
         return NULL;
@@ -49,10 +49,10 @@ struct stack *copia(struct stack *orig){ //gpt
     if(!orig) return NULL;
     struct stack *nova = cria(orig->tam);
     nova->topo = orig->topo;
-    memcpy(nova->vet, orig->vet, sizeof(info)*(orig->topo+1));
+    memcpy(nova->vet, orig->vet, sizeof(Info)*(orig->topo+1));
     return nova;
 }
-int empilha(info *reg, struct stack *stk){
+int empilha(Info *reg, struct stack *stk){
     if(!cheia(stk)){
         stk->topo++;
         stk->vet[stk->topo] = *reg;
@@ -61,15 +61,16 @@ int empilha(info *reg, struct stack *stk){
     return 0;
 }
 
-int desempilha(struct stack *stk){
+Info desempilha(struct stack *stk){
+    Info i = {0};
     if(!vazia(stk)){
+        i = stk->vet[stk->topo]; 
         stk->topo--;
-        return 1;
     }
-    return 0;
+    return i;
 }
 
-int busca(info *reg,struct stack *stk){
+int busca(Info *reg,struct stack *stk){
     if(!vazia(stk)){
         *reg = stk->vet[stk->topo];
         return 1;
@@ -87,10 +88,10 @@ struct stack *destroi(struct stack *stk){
 int main(){
     int n, m; 
     scanf("%d %d", &n, &m);
-
+    int xb,yb;
     struct stack *caminho = cria(n * m);
     struct stack *caminho2 = cria(n * m);
-    info inicio = {0};
+    Info inicio = {0};
     char labirinto[n][m], vis[n][m];
     for(int i = 0;i < n;i++){
         for(int j = 0;j < m;j++){
@@ -99,61 +100,42 @@ int main(){
                 inicio.x = i;
                 inicio.y = j;
             }
+            if(labirinto[i][j] == 'B'){
+                xb = i;
+                yb = j;
+            }
             vis[i][j] = 0;
         }
     }
 
-    int menorCaminho = 1e9;
+    int menorCaminho = 0;
     int achou = 0;
-    int i = inicio.x, j = inicio.y;
     for(int d = 0; d < 4; d++) inicio.dir[d] = 0;
     empilha(&inicio, caminho);
-    vis[i][j] = 1;
+    vis[inicio.x][inicio.y] = 1;    
     int dx[4] = {0, 1, 0, -1}; // direita, baixo, esquerda, cima
     int dy[4] = {1, 0, -1, 0};
-
-    while(!vazia(caminho)){
-        int moveu = 0;
-
-        if(labirinto[i][j] == 'B'){
-            achou = 1;
-            if((caminho->topo + 1) < menorCaminho){
-                menorCaminho = caminho->topo + 1;
-                destroi(caminho2);
-                caminho2 = copia(caminho);
-            }
-        } else{
+    while(vis[xb][yb] == 0){
+        while(!vazia(caminho)){
+            Info info = desempilha(caminho);
+            int i = info.x ; int j = info.y;
             for(int k = 0;k < 4;k++){
                 int ni = i + dx[k];
                 int nj = j + dy[k];
-
-                if(ni >= 0 && ni < n && nj >= 0 && nj < m &&(labirinto[ni][nj] == '.' || labirinto[ni][nj] == 'B') &&vis[ni][nj] == 0){
-                    if(caminho->topo >= 0 && caminho->vet[caminho->topo].dir[k] != 1){
-                        caminho->vet[caminho->topo].dir[k] = 1;
-                        i = ni;
-                        j = nj;
-                        info a = {0};
-                        a.x = i;        //mudou nd 
-                        a.y = j;
-                        for(int d = 0; d < 4; d++) a.dir[d] = 0;
-                        empilha(&a, caminho);
-                        vis[i][j] = 1;
-                        moveu = 1;
-                        break;
-                    }
+                if(ni >= 0 && ni < n && nj >= 0 && nj < m &&(labirinto[ni][nj] == '.' || labirinto[ni][nj] == 'B') && vis[ni][nj] == 0){
+                    vis[ni][nj] = 1;        
+                    Info info2 = {ni, nj, {0,0,0,0}};
+                    empilha(&info2,caminho2);
                 }
             }
         }
-        if(!moveu){
-            vis[i][j] = 0; //mudou de linha
-            desempilha(caminho);
-            if(vazia(caminho)) break;
-            info topo;
-            busca(&topo, caminho);
-            i = topo.x;
-            j = topo.y;
-        }
+        caminho = copia(caminho2); 
+        menorCaminho++;
     }
+
+    printf("%d\n",menorCaminho);
+
+/*
     if(!achou){
         printf("NO\n");
     }else{
@@ -187,20 +169,21 @@ int main(){
         reverse_str(s, idx);
         printf("%s\n", s);
     }
-
+*/
     destroi(caminho);
     destroi(caminho2);
 
     return 0;
-}
+}/*
 10 10
 ...#..A.#.
 ....B...##
 ...#......
 ..........
 ...#.#....
-#.########
+#..#######
 .......#..
 #.......#.
 #####...#.
 #......#..
+*/
