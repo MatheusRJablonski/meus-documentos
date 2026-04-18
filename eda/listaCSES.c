@@ -104,7 +104,7 @@ int main(){
                 xb = i;
                 yb = j;
             }
-            vis[i][j] = 0;
+            vis[i][j] = '0';
         }
     }
 
@@ -112,69 +112,76 @@ int main(){
     int achou = 0;
     for(int d = 0; d < 4; d++) inicio.dir[d] = 0;
     empilha(&inicio, caminho);
-    vis[inicio.x][inicio.y] = 1;    
+    vis[inicio.x][inicio.y] = '1';    
     int dx[4] = {0, 1, 0, -1}; // direita, baixo, esquerda, cima
     int dy[4] = {1, 0, -1, 0};
-    while(vis[xb][yb] == 0){
+    while(vis[xb][yb] == '0' && !vazia(caminho)){
         while(!vazia(caminho)){
             Info info = desempilha(caminho);
             int i = info.x ; int j = info.y;
             for(int k = 0;k < 4;k++){
                 int ni = i + dx[k];
                 int nj = j + dy[k];
-                if(ni >= 0 && ni < n && nj >= 0 && nj < m &&(labirinto[ni][nj] == '.' || labirinto[ni][nj] == 'B') && vis[ni][nj] == 0){
-                    vis[ni][nj] = 1;        
+                if(ni >= 0 && ni < n && nj >= 0 && nj < m &&(labirinto[ni][nj] == '.' || labirinto[ni][nj] == 'B') && vis[ni][nj] == '0'){
                     Info info2 = {ni, nj, {0,0,0,0}};
+                    if(k == 0){
+                        vis[ni][nj] = 'R';        
+                    }else if(k == 1){
+                        vis[ni][nj] = 'D';
+                    }else if(k == 2){
+                        vis[ni][nj] = 'L';
+                    }else{
+                        vis[ni][nj] = 'U';
+                    }
                     empilha(&info2,caminho2);
                 }
             }
         }
         caminho = copia(caminho2); 
+        caminho2->topo = -1;
         menorCaminho++;
     }
-
-    printf("%d\n",menorCaminho);
-
-/*
-    if(!achou){
+    if(vis[xb][yb] == '0'){
         printf("NO\n");
     }else{
-        printf("YES\n");
-        printf("%d\n", menorCaminho-1);
-
-        char s[n * m];
-        int idx = 0;
-
-        info reg;
-        busca(&reg, caminho2);
-        int a = reg.x;
-        int b = reg.y;
-
-        while(!vazia(caminho2)){
-            desempilha(caminho2);
-            if(vazia(caminho2)) break;
-
-            busca(&reg, caminho2);
-
-            if(reg.x == a - 1) s[idx++] = 'D';
-            else if(reg.x == a + 1) s[idx++] = 'U';
-            else if(reg.y == b - 1) s[idx++] = 'R';
-            else if(reg.y == b + 1) s[idx++] = 'L';
-
-            a = reg.x;
-            b = reg.y;
+        int a = xb;
+        int b = yb;
+        int k2 = 0;
+        struct stack *resposta = cria(menorCaminho);
+        for(int k = 0;k < menorCaminho;k++){
+            if(vis[a][b] == 'R'){
+                k2 = 2;
+            }else if(vis[a][b] == 'D'){
+                k2 = 3;
+            }else if(vis[a][b] == 'L'){
+                k2 = 0;
+            }else{
+                k2 = 1;
+            }
+            Info in = {vis[a][b],0,{0,0,0,0}};
+            empilha(&in,resposta);
+            a = a + dx[k2];
+            b = b + dy[k2];
         }
-
-        s[idx] = '\0';
-        reverse_str(s, idx);
-        printf("%s\n", s);
+        printf("YES\n");
+        printf("%d\n",menorCaminho);
+        while(!vazia(resposta)){
+            Info i = desempilha(resposta);
+            printf("%c",i.x);  
+        }
+        printf("\n");
     }
-*/
     destroi(caminho);
     destroi(caminho2);
 
     return 0;
 }/*
+5 8
+########
+#.A#...#
+#.##.#B#
+#......#
+########
 10 10
 ...#..A.#.
 ....B...##
