@@ -2,18 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-void reverse_str(char *s, int len){
-    for(int i = 0; i < len/2; i++){
-        char temp = s[i];
-        s[i] = s[len - i - 1];
-        s[len - i - 1] = temp;
-    }
-}
-
 typedef struct {
     int x;
     int y;
-    int dir[4];
 } Info;
 
 struct stack{
@@ -32,26 +23,7 @@ int vazia(struct stack *stk){
     return 0;
 }
 
-struct stack *cria(int tam){
-    struct stack *stk = NULL;
-    stk = malloc(sizeof(struct stack));
 
-    stk->vet = malloc(sizeof(Info) * tam);
-    if(!stk->vet){
-        free(stk);
-        return NULL;
-    }
-    stk->topo = -1;
-    stk->tam = tam;
-    return stk;
-}
-struct stack *copia(struct stack *orig){ //gpt
-    if(!orig) return NULL;
-    struct stack *nova = cria(orig->tam);
-    nova->topo = orig->topo;
-    memcpy(nova->vet, orig->vet, sizeof(Info)*(orig->topo+1));
-    return nova;
-}
 int empilha(Info *reg, struct stack *stk){
     if(!cheia(stk)){
         stk->topo++;
@@ -68,14 +40,6 @@ Info desempilha(struct stack *stk){
         stk->topo--;
     }
     return i;
-}
-
-int busca(Info *reg,struct stack *stk){
-    if(!vazia(stk)){
-        *reg = stk->vet[stk->topo];
-        return 1;
-    }
-    return 0;
 }
 
 struct stack *destroi(struct stack *stk){
@@ -110,7 +74,6 @@ int main(){
 
     int menorCaminho = 0;
     int achou = 0;
-    for(int d = 0; d < 4; d++) inicio.dir[d] = 0;
     empilha(&inicio, caminho);
     vis[inicio.x][inicio.y] = '1';    
     int dx[4] = {0, 1, 0, -1}; // direita, baixo, esquerda, cima
@@ -123,7 +86,7 @@ int main(){
                 int ni = i + dx[k];
                 int nj = j + dy[k];
                 if(ni >= 0 && ni < n && nj >= 0 && nj < m &&(labirinto[ni][nj] == '.' || labirinto[ni][nj] == 'B') && vis[ni][nj] == '0'){
-                    Info info2 = {ni, nj, {0,0,0,0}};
+                    Info info2 = {ni, nj};
                     if(k == 0){
                         vis[ni][nj] = 'R';        
                     }else if(k == 1){
@@ -137,7 +100,9 @@ int main(){
                 }
             }
         }
-        caminho = copia(caminho2); 
+        struct stack *temp = caminho;
+        caminho = caminho2;
+        caminho2 = temp;
         caminho2->topo = -1;
         menorCaminho++;
     }
@@ -158,7 +123,7 @@ int main(){
             }else{
                 k2 = 1;
             }
-            Info in = {vis[a][b],0,{0,0,0,0}};
+            Info in = {vis[a][b],0};
             empilha(&in,resposta);
             a = a + dx[k2];
             b = b + dy[k2];
