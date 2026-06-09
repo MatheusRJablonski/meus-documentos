@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<!-- saved from url=(0020)https://logisim.app/ -->
+<html lang="en"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Logisim.app: Use classic Logisim directly in your browser.</title>
+    <script src="./codigoregistradores_files/cj3loader.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" data-bis-config="[&quot;facebook.com/&quot;,&quot;twitter.com/&quot;,&quot;youtube-nocookie.com/embed/&quot;,&quot;//vk.com/&quot;,&quot;//www.vk.com/&quot;,&quot;linkedin.com/&quot;,&quot;//www.linkedin.com/&quot;,&quot;//instagram.com/&quot;,&quot;//www.instagram.com/&quot;,&quot;//www.google.com/recaptcha/api2/&quot;,&quot;//hangouts.google.com/webchat/&quot;,&quot;//www.google.com/calendar/&quot;,&quot;//www.google.com/maps/embed&quot;,&quot;spotify.com/&quot;,&quot;soundcloud.com/&quot;,&quot;//player.vimeo.com/&quot;,&quot;//disqus.com/&quot;,&quot;//tgwidget.com/&quot;,&quot;//js.driftt.com/&quot;,&quot;friends2follow.com&quot;,&quot;/widget&quot;,&quot;login&quot;,&quot;//video.bigmir.net/&quot;,&quot;blogger.com&quot;,&quot;//smartlock.google.com/&quot;,&quot;//keep.google.com/&quot;,&quot;/web.tolstoycomments.com/&quot;,&quot;moz-extension://&quot;,&quot;chrome-extension://&quot;,&quot;/auth/&quot;,&quot;//analytics.google.com/&quot;,&quot;adclarity.com&quot;,&quot;paddle.com/checkout&quot;,&quot;hcaptcha.com&quot;,&quot;recaptcha.net&quot;,&quot;2captcha.com&quot;,&quot;accounts.google.com&quot;,&quot;www.google.com/shopping/customerreviews&quot;,&quot;buy.tinypass.com&quot;,&quot;gstatic.com&quot;,&quot;secureir.ebaystatic.com&quot;,&quot;docs.google.com&quot;,&quot;contacts.google.com&quot;,&quot;github.com&quot;,&quot;mail.google.com&quot;,&quot;chat.google.com&quot;,&quot;audio.xpleer.com&quot;,&quot;keepa.com&quot;,&quot;static.xx.fbcdn.net&quot;,&quot;sas.selleramp.com&quot;,&quot;1plus1.video&quot;,&quot;console.googletagservices.com&quot;,&quot;//lnkd.demdex.net/&quot;,&quot;//radar.cedexis.com/&quot;,&quot;//li.protechts.net/&quot;,&quot;challenges.cloudflare.com/&quot;,&quot;ogs.google.com&quot;,&quot;//www.ukrnafta.com/data/map/&quot;,&quot;//maps.google.com/maps&quot;,&quot;//www.openstreetmap.org/export/embed.html&quot;,&quot;//www.google.com/maps/d/u/3/embed&quot;]" data-dynamic-id="3fd568fb-7e68-4fcb-bc73-2298313e0bb4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/200.js"></script><script bis_use="true" type="text/javascript" charset="utf-8" nonce="" data-dynamic-id="3fd568fb-7e68-4fcb-bc73-2298313e0bb4" src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/101.js"></script>
+    <script src="./codigoregistradores_files/umd.js"></script>
+    <meta name="description" value="Run classic Logisim directly in your browser. Design and simulate digital circuits online for free. No sign up or download required.">
+    <link rel="canonical" href="https://logisim.app/">
+    <meta property="og:url" content="https://logisim.app">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Logisim.app: Use classic Logisim directly in your browser.">
+    <meta property="og:description" content="Run classic Logisim directly in your browser. Design and simulate digital circuits online for free. No sign up or download required.">
+    <meta property="og:image" content="https://logisim.app/images/og-image.png">
+    <script defer="" data-domain="logisim.app" data-api="/api/event" src="./codigoregistradores_files/script.js"></script>
+    <script type="module" crossorigin="" src="./codigoregistradores_files/index-Dr7hvig1.js"></script>
+    <link rel="stylesheet" crossorigin="" href="./codigoregistradores_files/index-2JkZAa-T.css">
+  <link rel="stylesheet" type="text/css" href="./codigoregistradores_files/cheerpj.css" media="screen"><script src="./codigoregistradores_files/cheerpOS.js"></script></head>
+  <body __processed_0369d542-4bc9-4296-bfdc-f9d2f7af5290__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJlbmFibGVkIiwiRkFDRUJPT0siOiJlbmFibGVkIiwiVFdJVFRFUiI6ImVuYWJsZWQiLCJSRURESVQiOiJlbmFibGVkIiwiUElOVEVSRVNUIjoiZW5hYmxlZCIsIklOU1RBR1JBTSI6ImVuYWJsZWQiLCJUSUtUT0siOiJkaXNhYmxlZCIsIkxJTktFRElOIjoiZW5hYmxlZCIsIkNPTkZJRyI6ImRpc2FibGVkIn0sInZlcnNpb24iOiIyLjAuNDUiLCJzY29yZSI6MjAwNDUwfV0=">
+    <header class="absolute top-0 right-0 left-0 h-10 flex items-center justify-between bg-white md:px-4 z-50 border-b border-zinc-300">
+      <!-- Logo -->
+      <div class="flex gap-2" bis_skin_checked="1">
+        <img src="./codigoregistradores_files/logisim.app.svg" alt="Logisim.app logo" class="h-10">
+      </div>
+
+      <!-- Navigation links -->
+      <nav class="flex items-center gap-4 mr-4 md:gap-4">
+        <a href="https://www.linkedin.com/company/drs-software" target="_blank" class="text-zinc-700 text-sm hover:text-zinc-900" aria-label="LinkedIn" bis_skin_checked="1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6">
+            <path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"></path>
+          </svg>
+        </a>
+
+        <a href="https://github.com/De-Rossi-Consulting/logisim.app" target="_blank" class="text-zinc-700 text-sm hover:text-zinc-900" aria-label="GitHub" bis_skin_checked="1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6">
+            <path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"></path>
+          </svg>
+        </a>
+        <a href="https://github.com/De-Rossi-Consulting/logisim.app/issues/new/choose" target="_blank" class="text-zinc-700 text-sm hover:text-zinc-900 inline-flex items-center gap-1" bis_skin_checked="1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 inline-block">
+            <path fill="currentColor" d="M14 12h-4v-2h4m0 6h-4v-2h4m6-6h-2.81a6 6 0 0 0-1.82-1.96L17 4.41L15.59 3l-2.17 2.17a6 6 0 0 0-2.83 0L8.41 3L7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20z"></path>
+          </svg>
+          Report an issue
+        </a>
+      </nav>
+    </header>
+
+    <div id="cheerp-container" class="absolute top-10 right-0 left-0 bottom-[26px] shadow-none overflow-hidden border-t border-b border-zinc-200 bg-white bg-zinc-200" bis_skin_checked="1">
+    <div id="cheerpjDisplay" class="bordered cheerpjNC" data-status="Graphics system is initializing" bis_skin_checked="1" tabindex="-1" style="width: 100%; height: 100%;"><textarea readonly="" style="position: absolute; opacity: 0; padding: 0px; border: 0px; left: 607px; top: 523px; width: 1px; height: 14px;"></textarea><div class="window bordered" tabindex="-1" bis_skin_checked="1" style="position: absolute; display: none; background: rgb(255, 255, 255); color: rgb(0, 0, 0); left: 0px; top: 0px; width: 0px; height: 0px; z-index: 1;"><div bis_skin_checked="1" style="overflow: hidden; position: absolute; width: 100%; height: 100%;"></div><div class="titleBar" draggable="true" bis_skin_checked="1" style="overflow: hidden;"><a></a><svg class="controls" viewBox="0 0 12 12"><line x1="1.5" y1="1.5" x2="10.5" y2="10.5"></line><line x1="10.5" y1="1.5" x2="1.5" y2="10.5"></line></svg><svg class="controls" viewBox="0 0 12 12"><rect x="0.5" y="0.5" width="11" height="11"></rect></svg></div><div class="resizer" bis_skin_checked="1"></div></div><div class="window" tabindex="-1" bis_skin_checked="1" style="position: absolute; display: none; background: rgb(255, 255, 255); color: rgb(0, 0, 0); left: 758px; top: 248px; width: 404px; height: 361px; font-size: 12px; z-index: 2;"><canvas width="404" height="361" style="position: absolute; display: inline-block; left: 0px; top: 0px; width: 404px; height: 361px;"></canvas><div bis_skin_checked="1" style="overflow: hidden; position: absolute; width: 100%; height: 100%;"></div></div><div class="window bordered" tabindex="-1" bis_skin_checked="1" style="position: absolute; display: inline-block; background: rgb(255, 255, 255); color: rgb(0, 0, 0); left: 460px; top: 28px; width: 1000px; height: 800px; z-index: 3; cursor: unset;"><canvas width="1000" height="800" style="position: absolute; display: inline-block; left: 0px; top: 0px; width: 1000px; height: 800px;"></canvas><div bis_skin_checked="1" style="overflow: hidden; position: absolute; width: 100%; height: 100%;"></div><div class="titleBar" draggable="true" style="overflow: hidden;" bis_skin_checked="1"><a>Logisim: main of Untitled</a><svg class="controls" viewBox="0 0 12 12"><line x1="1.5" y1="1.5" x2="10.5" y2="10.5"></line><line x1="10.5" y1="1.5" x2="1.5" y2="10.5"></line></svg><svg class="controls" viewBox="0 0 12 12"><rect x="0.5" y="0.5" width="11" height="11"></rect></svg></div><div class="resizer" bis_skin_checked="1"></div></div><div class="window" tabindex="-1" bis_skin_checked="1" style="position: absolute; display: none; background: rgb(255, 255, 255); color: rgb(0, 0, 0); left: 1357px; top: 668px; width: 252px; height: 16px; font-size: 12px; z-index: 4;"><canvas width="252" height="16" style="position: absolute; display: inline-block; left: 0px; top: 0px; width: 252px; height: 16px;"></canvas><div bis_skin_checked="1" style="overflow: hidden; position: absolute; width: 100%; height: 100%;"></div></div></div></div>
+
+    <!-- Porting link -->
+    <div class="absolute bottom-10 right-3 w-46 bg-white shadow-lg rounded-lg p-4 text-zinc-700 text-sm flex flex-col gap-2" bis_skin_checked="1">
+      <p>Transform your desktop app into a web app like this one.</p>
+      <a href="https://drs.software/wasm-porting/" target="_blank" class="text-blue-500 hover:text-blue-700" bis_skin_checked="1">
+        Learn more
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 inline-block">
+          <path fill="currentColor" d="M4 11v2h12l-5.5 5.5l1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5L16 11z"></path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="absolute right-3 top-15 flex flex-col items-end gap-2" bis_skin_checked="1">
+      <details class="rounded-lg shadow-lg flex flex-row-reverse bg-white text-zinc-700
+        text-sm transition z-50 w-fit">
+        <div class="relative flex flex-col gap-2 text-zinc-700 text-sm p-4 pr-0 w-100" bis_skin_checked="1">
+          <img src="./codigoregistradores_files/logisim.app.svg" alt="Logisim.app logo" class="h-12 w-fit">
+          <p>
+            Logisim is an educational tool for designing and simulating digital
+            logic circuits.
+          </p>
+          <p>
+            This web-based version of Logisim has been adapted
+            to run in the browser, powered by WebAssembly.
+          </p>
+          <p>
+            Based on the original
+            <a href="https://cburch.com/logisim/index.html" target="_blank" class="text-blue-500 hover:text-blue-700" bis_skin_checked="1">
+              Logisim (Legacy) version 2.7.2.
+            </a>
+          </p>
+          <hr class="border-zinc-200 my-3">
+          <h2 class="font-semibold text-base">About this project</h2>
+          <p>
+            This project is free to use and open-source, and always will be.
+          </p>
+          <ul class="flex flex-col gap-1 pl-6" style="list-style: &quot;→   &quot;">
+            <li>
+              View the source code
+              <a target="_blank" href="https://github.com/De-Rossi-Consulting/logisim.app" class="text-blue-500 hover:text-blue-700" bis_skin_checked="1">
+                on Github.
+              </a>
+            </li>
+            <li>
+              For more information,
+              <a target="_blank" href="https://drs.software/blog/announcing-logisim" class="text-blue-500 hover:text-blue-700" bis_skin_checked="1">
+                read the full announcement.
+              </a>
+            </li>
+            <li>
+              Available under the
+              <a href="https://github.com/De-Rossi-Consulting/logisim.app/blob/main/LICENSE" target="_blank" class="text-blue-500 hover:text-blue-700" bis_skin_checked="1">
+                GNU General Public Licence (v2).
+              </a>
+            </li>
+            <li>
+              Powered by
+              <a href="https://cheerpj.com/" class="text-blue-500 hover:text-zinc-700" target="_blank" bis_skin_checked="1">
+                CheerpJ.
+              </a>
+            </li>
+          </ul>
+          <hr class="border-zinc-200 my-3">
+          <a target="_blank" href="https://drs.software/" bis_skin_checked="1">
+            Made with <span role="img" aria-label="love">❤️</span> by
+            <img src="./codigoregistradores_files/drs-logo-header.png" alt="DRS Software logo" class="inline-block h-4">
+            DRS Software
+          </a>
+          <span>
+            Contact us on: 
+            <a class="text-blue-500 hover:text-zinc-700" target="_blank" href="mailto:info@logisim.app" bis_skin_checked="1">
+              info@logisim.app
+            </a>
+          </span>
+          <p>
+            Transform your desktop app into a web app like this one.
+            <br>
+            <a href="https://drs.software/wasm-porting/" class="text-blue-500 hover:text-blue-700" target="_blank" bis_skin_checked="1">
+              Learn more
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 inline-block">
+                <path fill="currentColor" d="M4 11v2h12l-5.5 5.5l1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5L16 11z"></path>
+              </svg>
+            </a>
+          </p>
+          <hr class="border-zinc-200 my-3">
+          <div class="flex justify-between items-center" bis_skin_checked="1">
+            <p class="text-zinc-500">
+              © 2025 DRS Software
+            </p>
+            <a href="https://drs.software/contact/" class="text-blue-500 hover:text-blue-700" target="_blank" bis_skin_checked="1">
+              Contact us
+            </a>
+          </div>
+        </div>
+        <summary class="relative p-1 list-none w-fit">
+          <a class="text-zinc-500 p-2 rounded-xl inline-flex flex-row gap-2
+            items-center cursor-pointer hover:bg-zinc-200 hover:text-zinc-700
+            font-semibold w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 inline">
+              <path fill="currentColor" d="M11 9h2V7h-2m1 13c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1 15h2v-6h-2z"></path>
+            </svg>
+          </a>
+        </summary>
+      </details>
+
+      <details class="rounded-lg shadow-lg flex flex-row-reverse bg-white w-fit text-zinc-700 text-sm transition z-50" id="example-details">
+        <div class="relative flex flex-col gap-2 text-zinc-700 text-sm p-4 pr-0 w-100" bis_skin_checked="1">
+          <h2 class="font-semibold text-base">Examples</h2>
+          <p>Here are some examples to try out right away.</p>
+          <button class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-zinc-700
+            hover:bg-zinc-200 hover:text-zinc-700 font-semibold rounded-lg
+            cursor-pointer disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-default" role="menuitem" id="Adder-Example-Button" tabindex="-1" onclick="loadExample(&#39;/examples/Adder Example.circ&#39;, &#39;Adder Example&#39;)">
+            <img src="./codigoregistradores_files/logisim.ico" alt="Logisim logo" class="h-6 opacity-75" id="Adder-Example-Img">
+            <div role="status" id="Adder-Example-Spinner" hidden="" bis_skin_checked="1">
+              <svg aria-hidden="true" class="w-6 h-6 text-gray-200 animate-spin fill-blue-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
+                  <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"></path>
+              </svg>
+            </div>
+            Adder
+          </button>
+          <button class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-zinc-700
+            hover:bg-zinc-200 hover:text-zinc-700 font-semibold rounded-lg
+            cursor-pointer disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-default" role="menuitem" id="Multiplexer-and-Demultiplexer-Example-Button" tabindex="-1" onclick="loadExample(&#39;/examples/Multiplexer and Demultiplexer Example.circ&#39;, &#39;Multiplexer and Demultiplexer Example&#39;)">
+            <img src="./codigoregistradores_files/logisim.ico" alt="Logisim logo" class="h-6 opacity-75" id="Multiplexer-and-Demultiplexer-Example-Img">
+            <div role="status" id="Multiplexer-and-Demultiplexer-Example-Spinner" hidden="" bis_skin_checked="1">
+              <svg aria-hidden="true" class="w-6 h-6 text-gray-200 animate-spin fill-blue-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
+                  <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"></path>
+              </svg>
+            </div>
+            Multiplexer + Demultiplexer 
+          </button>
+          <button class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-zinc-700
+            hover:bg-zinc-200 hover:text-zinc-700 font-semibold rounded-lg
+            cursor-pointer disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-default" role="menuitem" id="32-Bit-ALU-Example-Button" tabindex="-1" onclick="loadExample(&#39;/examples/32 Bit ALU Example.circ&#39;, &#39;32 Bit ALU Example&#39;)">
+            <img src="./codigoregistradores_files/logisim.ico" alt="Logisim logo" id="32-Bit-ALU-Example-Img" class="h-6 opacity-75">
+            <div role="status" id="32-Bit-ALU-Example-Spinner" hidden="" bis_skin_checked="1">
+              <svg aria-hidden="true" class="w-6 h-6 text-gray-200 animate-spin fill-blue-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
+                  <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"></path>
+              </svg>
+            </div>
+            32-bit ALU
+          </button>
+        </div>
+        <summary class="relative p-1 list-none">
+          <a class="text-zinc-500 p-2 rounded-xl inline-flex flex-row gap-2 items-center cursor-pointer hover:bg-zinc-200 hover:text-zinc-700 font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="h-6 inline">
+              <path fill="currentColor" d="M6.1 10L4 18V8h17a2 2 0 0 0-2-2h-7l-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h15c.9 0 1.7-.6 1.9-1.5l2.3-8.5zM19 18H6l1.6-6h13z"></path>
+            </svg>
+          </a>
+        </summary>
+      </details>
+    </div>
+
+    <footer class="absolute bottom-0 right-0 left-0 h-[30px] flex flex-row items-center justify-center bg-white px-4 md:px-8 z-50 border-t border-zinc-200">
+      <div class="flex items-center gap-8 text-zinc-700 text-sm" bis_skin_checked="1">
+        <a href="https://drs.software/" class="flex items-center gap-1" target="_blank" bis_skin_checked="1">
+          Made with <span role="img" aria-label="love">❤️</span> by
+          <img src="./codigoregistradores_files/drs-logo-header.png" alt="DRS Software logo" class="inline-block h-4">
+          DRS Software
+        </a>
+        <a href="https://cheerpj.com/" class="flex items-center gap-1" target="_blank" bis_skin_checked="1">
+          Powered by
+          <img src="./codigoregistradores_files/CJLogo.webp" alt="CheerpJ logo" class="h-4">
+          CheerpJ
+        </a>
+        <a href="https://drs.software/blog/announcing-logisim/" class="flex items-center gap-1" target="_blank" bis_skin_checked="1">
+          📖 Read the announcement
+        </a>
+      </div>
+    </footer>
+  <script defer="" src="./codigoregistradores_files/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;f538600ea66940df95525441985eff8e&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+
+
+<iframe src="./codigoregistradores_files/c.html" width="0px" height="0px" style="border: 0px; position: fixed; visibility: hidden;" bis_size="{&quot;x&quot;:0,&quot;y&quot;:0,&quot;w&quot;:0,&quot;h&quot;:0,&quot;abs_x&quot;:0,&quot;abs_y&quot;:0}" bis_id="fr_6zvz1da7zz37nwvf7n7vzk" bis_depth="0" bis_chainid="1"></iframe></body></html>
