@@ -8,7 +8,6 @@ int main(){
     cin >> n >> m;
     int maior = max(n,m);
     vector<vector<char>>a(n,vector<char>(maior));
-    vector<vector<char>>copia(n,vector<char>(maior));
     for(int i =0;i<n;i++){
         for(int j = 0;j<m;j++) cin >> a[i][j];
     }
