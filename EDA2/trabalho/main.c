@@ -157,7 +157,7 @@ int main(void) {
                 fprintf(fr, "\n");
             }
         }
-
+        //teste
         avl_destruir(avl);
         rn_destruir(rn);
         b_destruir(b1);
